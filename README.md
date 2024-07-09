@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Esta aplicación web interactiva está diseñada para visualizar datos meteorológicos de diferentes estaciones. Desarrollada con Dash y Plotly, la aplicación permite a los usuarios seleccionar una estación y una variable meteorológica para generar gráficos dinámicos y visualmente atractivos. La interfaz es fácil de usar y permite obtener insights rápidamente a partir de los datos meteorológicos disponibles.
+Aqui va el codigo de una aplicacion que hice hace tiempo pero que nuca subi a Github. Esta aplicación web interactiva está diseñada para visualizar datos meteorológicos de diferentes estaciones. Desarrollada con Dash y Plotly, la aplicación permite a los usuarios seleccionar una estación y una variable meteorológica para generar gráficos dinámicos y visualmente atractivos. La interfaz es fácil de usar y permite obtener insights rápidamente a partir de los datos meteorológicos disponibles.
 
 ## Características
 
