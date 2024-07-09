@@ -3,7 +3,10 @@ import dash
 from layout.layout import create_layout
 from callbacks.callbacks import register_callbacks
 
-app = dash.Dash(__name__)
+# incluyo el CSS de Bootstrap
+external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css']
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # Configuramos el layout de la aplicación
 app.layout = create_layout()
