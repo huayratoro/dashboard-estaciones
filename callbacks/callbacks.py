@@ -2,6 +2,11 @@ from dash.dependencies import Input, Output, State
 from data.data_loader import obtener_datos, obtener_posicion_estacion
 import plotly.express as px
 import plotly.graph_objects as go
+import os; from dotenv import load_dotenv
+
+# Cargo el token de Mapbox 
+load_dotenv()
+px.set_mapbox_access_token(os.getenv('MAPBOX_TOKEN'))
 
 def register_callbacks(app):
     @app.callback(
@@ -37,39 +42,18 @@ def register_callbacks(app):
             )
 
             # Mapa de la estacion
-            # fig_map = px.scatter(posicion, x="longitud", y="latitud")
-            fig_map = px.scatter_geo(
+            fig_map = px.scatter_mapbox(
                 posicion, 
                 lat="latitud", lon="longitud",
                 title=f'Posicion de la estacion {nombre_estacion}',
-                scope="south america",
                 center={
                     'lat': posicion['latitud'].iloc[0],
                     'lon': posicion['longitud'].iloc[0]
-                }
+                },
+                zoom=10, mapbox_style="stamen-terrain",
             )
-            # fig_map = go.Figure(
-            #     go.Scattermapbox(
-            #         lat=float(posicion['latitud'].iloc[0]),
-            #         lon=float(posicion['longitud'].iloc[0]),
-            #         mode='markers',
-            #         marker=go.scattermapbox.Marker(size = 14),
-            #         text=[nombre_estacion]
-            #     )
-            # )
 
-            # fig_map.update_layout(
-            #     mapbox_style = 'satellite-streets',
-            #     mapbox=dict(
-            #         center=go.layout.mapbox.Center(
-            #             lat = float(posicion['latitud'].iloc[0]),
-            #             lon = float(posicion['longitud'].iloc[0])
-            #         ),
-            #         zoom = 15
-            #     ),
-            #     margin={"r":0, "t":0, "l":0, "b":0}
-            # )
-
+            # retornamos los outputs
             return fig_line, fig_box, fig_hist, fig_map
         
         # en el caso que no se hayan hecho clicks, no se retorna graficos
