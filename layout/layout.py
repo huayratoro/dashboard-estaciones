@@ -7,7 +7,7 @@ def create_layout():
     conn = get_db_connection()
     estaciones_disponibles = pd.read_sql('estaciones', conn)
     estaciones = sorted(estaciones_disponibles["nombre"].unique())
-    variables = ['temp', 'hr', 'pres']
+    variables = ['temp', 'hr', 'pest']
     
     return html.Div([
         # titulo general
