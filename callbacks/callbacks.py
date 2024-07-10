@@ -1,6 +1,6 @@
 from dash.dependencies import Input, Output, State
 from data.data_loader import obtener_datos, obtener_posicion_estacion
-import plotly.express as px
+import plotly.express as px; import plotly.graph_objects as go
 import os; from dotenv import load_dotenv
 import pandas as pd
 
@@ -35,8 +35,14 @@ def register_callbacks(app):
             serie['mes_nombre'] = serie['mes'].map(meses_dict)
 
             # Grafico de lineas
-            fig_line = px.line(
-                serie, y=var, title=f'Variacion de {var} para la estacion {nombre_estacion}'
+            # fig_line = px.line(
+            #     serie, y=var, title=f'Variacion de {var} para la estacion {nombre_estacion}'
+            # )
+
+            # fig_line.update_traces(connectgaps=False)
+
+            fig_line = px.scatter(
+                serie, x = serie.index, y = var, color=var, title=f'Variacion de {var} para la estacion {nombre_estacion}'
             )
 
             # Boxplot de la variable total
