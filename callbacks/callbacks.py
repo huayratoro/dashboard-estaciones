@@ -1,8 +1,8 @@
 from dash.dependencies import Input, Output, State
 from data.data_loader import obtener_datos, obtener_posicion_estacion
 import plotly.express as px
-import plotly.graph_objects as go
 import os; from dotenv import load_dotenv
+import pandas as pd
 
 # Cargo el token de Mapbox 
 load_dotenv()
@@ -13,7 +13,8 @@ def register_callbacks(app):
         [Output('grafico-primero', 'figure'),
         Output('boxplot-general', 'figure'),
         Output('histplot-general', 'figure'),
-        Output('mapa-estacion', 'figure')],
+        Output('mapa-estacion', 'figure'),
+        Output('boxplot-mensual', 'figure')],
         Input('boton-generar-grafico', 'n_clicks'),
         State('dropdown-nom-var', 'value'),
         State('dropdown-nom-estacion', 'value')
@@ -25,12 +26,20 @@ def register_callbacks(app):
             serie = obtener_datos(var, nombre_estacion)
             posicion = obtener_posicion_estacion(nombre_estacion)
 
+            # pongo como indice las fechas
+            serie = serie.set_index(pd.to_datetime(serie.index))
+
+            # agrego una columna con los meses
+            serie['mes'] = serie.index.month
+            meses_dict = {10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre', 1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril'}
+            serie['mes_nombre'] = serie['mes'].map(meses_dict)
+
             # Grafico de lineas
             fig_line = px.line(
-                serie, title=f'Variacion de {var} para la estacion {nombre_estacion}'
+                serie, y=var, title=f'Variacion de {var} para la estacion {nombre_estacion}'
             )
 
-            # Boxplot
+            # Boxplot de la variable total
             fig_box = px.box(
                 serie, y=var, title=f'Boxplot de {var} para la estacion {nombre_estacion}'
             )
@@ -53,8 +62,13 @@ def register_callbacks(app):
                 zoom=10, mapbox_style="stamen-terrain",
             )
 
+            # Boxplot de la variable mensual
+            fig_box_mensual = px.box(serie, y = var, x="mes_nombre", title=f"Boxplot de {var} para la estacion {nombre_estacion}")
+
+            fig_box_mensual.update_xaxes(categoryorder='array', categoryarray=['Octubre', 'Noviembre', 'Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril'])
+
             # retornamos los outputs
-            return fig_line, fig_box, fig_hist, fig_map
+            return fig_line, fig_box, fig_hist, fig_map, fig_box_mensual
         
         # en el caso que no se hayan hecho clicks, no se retorna graficos
-        return {}, {}, {}, {}
+        return {}, {}, {}, {}, {}

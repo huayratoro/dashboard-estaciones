@@ -41,6 +41,10 @@ def create_layout():
                 dcc.Graph(id="boxplot-general", style={"width" : "40%"}),
                 # Histplot
                 dcc.Graph(id="histplot-general", style={"width" : "60%"})
-            ], style={"display": "flex"})
+            ], style={"display": "flex"}),
+            html.Div([
+                # Boxplots con la distribucion de la variable por cada mes
+                dcc.Graph(id="boxplot-mensual")
+            ])
         ]),
     ])

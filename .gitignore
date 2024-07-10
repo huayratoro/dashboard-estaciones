@@ -1,3 +1,4 @@
 .env
 plotly/
 .mapbox_token
+test.py
