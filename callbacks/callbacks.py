@@ -35,12 +35,6 @@ def register_callbacks(app):
             serie['mes_nombre'] = serie['mes'].map(meses_dict)
 
             # Grafico de lineas
-            # fig_line = px.line(
-            #     serie, y=var, title=f'Variacion de {var} para la estacion {nombre_estacion}'
-            # )
-
-            # fig_line.update_traces(connectgaps=False)
-
             fig_line = px.scatter(
                 serie, x = serie.index, y = var, color=var, title=f'Variacion de {var} para la estacion {nombre_estacion}'
             )
